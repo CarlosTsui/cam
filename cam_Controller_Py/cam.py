@@ -16,21 +16,21 @@ for i in range(1,9):
     print(i,angle,agh[i],agc[i])
     angle+=45;
 
-ser = serial.Serial('COM3', 115200)
+ser = serial.Serial('COM3', 9600)
 ser.write("sssssssss")
 cv2.namedWindow("test")
-cap=cv2.VideoCapture(2)
-success, frame = cap.read()
+cap=cv2.VideoCapture(0)
+success, frame = cap.read()     
 color = (0,0,111)
-classfier=cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
+classfier=cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")  
 while success:
-    #time.sleep(0.01)
+    time.sleep(0.01)
 
     success, frame = cap.read()
-    size=frame.shape[:2]
-    image=np.zeros(size,dtype=np.float16)
-    image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    cv2.equalizeHist(image, image)
+    size=frame.shape[:2]       
+    image=np.zeros(size,dtype=np.float16)   
+    image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  
+    cv2.equalizeHist(image, image)  
 
     divisor=16
     h, w = size
@@ -39,7 +39,7 @@ while success:
     
     #print(len(faceRects))
 
-    if len(faceRects)==1:
+    if len(faceRects)>0:
         for faceRect in faceRects:
                 x, y, w, h = faceRect
                 cv2.rectangle(frame, (x, y), (x+w, y+h), color,3)
@@ -50,28 +50,28 @@ while success:
                 angle_sin=cx/cz
                 #640x480    center:320,240
 
-                if((abs(cx)>80)or(abs(cy)>60)):
+                if((abs(cx)>100)or(abs(cy)>75)):
                     print(x,x+w,y,y+h,"   ",cx,cy,angle_sin,angle_cos)
                     if(angle_sin>0):        #AQWED
                         if(angle_cos>agc[1]):           #D
-                            ser.write("sww")
+                            ser.write("sw")
                         elif(angle_cos>agc[2]):      #E
-                            ser.write("see")
+                            ser.write("se")
                         elif(angle_cos>agc[3]):      #W
-                            ser.write("sddd")
+                            ser.write("sdd")
                         elif(angle_cos>agc[4]):      #Q
-                            ser.write("scc")
+                            ser.write("sc")
                         else:                           #A
-                            ser.write("sxxx")
+                            ser.write("sxx")
                     elif(angle_sin<=0):
                         if(angle_cos>agc[8]):           #D
-                            ser.write("sww")
+                            ser.write("sw")
                         elif(angle_cos>agc[7]):      #C
-                            ser.write("sqq")
+                            ser.write("sq")
                         elif(angle_cos>agc[6]):      #X
-                            ser.write("saaa")
+                            ser.write("saa")
                         elif(angle_cos>agc[5]):      #Z
-                            ser.write("szz")
+                            ser.write("sz")
                         else:                           #A
                             ser.write("sxx")
                 elif((abs(cx)>20)or(abs(cy)>15)):
