@@ -10,15 +10,18 @@ import wave
 import multiprocessing as mulp
 
 def rec_audio(stat,filename,queue):
-	NUM_SAMPLES = 2000
+	NUM_SAMPLES = 200
 	SAMPLING_RATE = 8000
-	LEVEL = 1500
-	COUNT_NUM = 20
-	SAVE_LENGTH = 8
 	pa = PyAudio()
 	stream = pa.open(format=paInt16, channels=1, rate=SAMPLING_RATE, input=True, frames_per_buffer=NUM_SAMPLES)
 	save_count = 0 
 	save_buffer = [] 
+
+	while True:
+		signal=queue.get()
+		if(signal=="audio_start"):
+			break
+
 	time_start=clock()
 
 	while True:
@@ -26,7 +29,7 @@ def rec_audio(stat,filename,queue):
 		save_buffer.append( string_audio_data )
 		if(stat.value==1):
 			break
-
+	
 	time_finish=clock()
 	wf = wave.open("./temp_frame/"+filename+".wav", 'wb') 
 	wf.setnchannels(1) 
@@ -47,7 +50,6 @@ def rec_video(stat,framecnt,filename,queue):
     cap=cv2.VideoCapture(1)
     capsize = (int(cap.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH)),int(cap.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT)))
     fourcc = cv2.cv.CV_FOURCC('M','S','V','C')
-    time_start=clock()
     cv2.namedWindow("test")
     framecnt.value=0
     success, frame = cap.read()
@@ -55,6 +57,8 @@ def rec_video(stat,framecnt,filename,queue):
     framelist.append("./temp_frame/0.jpg")
     framecnt.value+=1
     queue.put("rotate_start")
+    queue.put("audio_start")
+    time_start=clock()
 
     while True:
         success, frame = cap.read()
@@ -80,7 +84,9 @@ def rec_video(stat,framecnt,filename,queue):
     while True:
     	signal=queue.get()
     	if(signal=="wav_sav_ok"):
+    		print("wav_completed")
     		break
+
    	print("video_start: "+str(time_start))
     print("video_end: "+str(time_finish))
     print("video_duration (sec): "+str(time_finish-time_start))   #duration (second)
@@ -100,6 +106,8 @@ def engine_rotating(stat,framecnt,queue):
 		signal=queue.get()
 		if(signal=="rotate_start"):
 			break
+
+	print("eng_start")
 
 	while True:
 		if(stat.value==1):
