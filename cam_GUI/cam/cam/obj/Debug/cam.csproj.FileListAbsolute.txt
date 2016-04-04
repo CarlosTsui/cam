@@ -1,5 +1,4 @@
 D:\HFUTProject\cam\cam_GUI\cam\cam\bin\Debug\cam.exe.config
-D:\HFUTProject\cam\cam_GUI\cam\cam\bin\Debug\hello.py
 D:\HFUTProject\cam\cam_GUI\cam\cam\bin\Debug\cam.exe
 D:\HFUTProject\cam\cam_GUI\cam\cam\bin\Debug\cam.pdb
 D:\HFUTProject\cam\cam_GUI\cam\cam\bin\Debug\IronPython.dll
