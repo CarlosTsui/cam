@@ -31,6 +31,12 @@ void loop() {
     if(getChar(action)){
       if(action=='a')cameraMove(0,1);
       if(action=='d')cameraMove(0,-1);
+      if(action=='w')cameraMove(1,0);
+      if(action=='x')cameraMove(-1,0);
+      if(action=='q')cameraMove(1,1);
+      if(action=='e')cameraMove(1,-1);
+      if(action=='z')cameraMove(-1,1);
+      if(action=='c')cameraMove(-1,-1);
     }
   }
   //confirm here
