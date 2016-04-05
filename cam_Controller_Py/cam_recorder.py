@@ -157,27 +157,27 @@ def engine_rotating(stat,framecnt,queue):
 					print(x,x+w,y,y+h,"   ",cx,cy,angle_sin,angle_cos)
 					if(angle_sin>0):        #AQWED
 						if(angle_cos>agc[1]):           #D
-							ser.write("sw")
+							ser.write("sww")
 						elif(angle_cos>agc[2]):      #E
-							ser.write("se")
+							ser.write("see")
 						elif(angle_cos>agc[3]):      #W
-							ser.write("sdd")
+							ser.write("sddd")
 						elif(angle_cos>agc[4]):      #Q
-							ser.write("sc")
+							ser.write("scc")
 						else:                           #A
 							ser.write("sxx")
 					elif(angle_sin<=0):
 						if(angle_cos>agc[8]):           #D
-							ser.write("sw")
+							ser.write("sww")
 						elif(angle_cos>agc[7]):      #C
-							ser.write("sq")
+							ser.write("sqq")
 						elif(angle_cos>agc[6]):      #X
-							ser.write("saa")
+							ser.write("saaa")
 						elif(angle_cos>agc[5]):      #Z
-							ser.write("sz")
+							ser.write("szz")
 						else:                           #A
 							ser.write("sxx")
-					elif((abs(cx)>20)or(abs(cy)>15)):
+					elif((abs(cx)>40)or(abs(cy)>30)):
 						print(x,x+w,y,y+h,"   ",cx,cy,angle_sin,angle_cos)
 						if(angle_sin>0):        #AQWED
 							if(angle_cos>agc[1]):           #D
