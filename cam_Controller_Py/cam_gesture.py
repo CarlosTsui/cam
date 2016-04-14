@@ -2,7 +2,7 @@ import cv2
 import numpy as np 
 import time
 
-cap=cv2.VideoCapture(1)
+cap=cv2.VideoCapture(0)
 cv2.namedWindow("test")
 cv2.namedWindow("new")
 success,frame=cap.read()
@@ -10,6 +10,8 @@ bkg=frame
 fnt=frame
 graybkg=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 grayfnt=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+vec=[0 for x in range(0,10)]
+veccnt=0
 while success:
 	time.sleep(0.01)
 	success,frame=cap.read()
@@ -24,12 +26,28 @@ while success:
 	bkg=frame
 	graybkg=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 	(minval,maxval,minloc,maxloc)=cv2.minMaxLoc(grayframe)
-	cv2.circle(frame,maxloc,rad,(255,0,0),2)
-	cv2.circle(grayframe,maxloc,rad,(255,0,0),2)
+	if(maxval>150):
+		cv2.circle(frame,maxloc,rad,(255,0,0),2)
+		cv2.circle(grayframe,maxloc,rad,(255,0,0),2)
+
+		vec[veccnt]=maxloc[0]
+		veccnt+=1
+		moved=1
+		if(veccnt==10):
+			veccnt=0
+			for i in range(1,10):
+				speed=vec[i]-vec[i-1]
+				if(abs(speed)<10):
+					moved=0
+		if(moved==1):
+			if(vec[9]>vec[0]):
+				print("right")
+			else:
+				print("left")
 
 	cv2.imshow("test",frame)
 	cv2.imshow("new",grayframe)
-	print(maxloc)
+	#print(maxloc,maxloc[0])
 
 	key=cv2.waitKey(1)
 	c = chr(key & 255)
