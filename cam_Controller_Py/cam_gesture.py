@@ -4,7 +4,7 @@ import time
 
 cap=cv2.VideoCapture(0)
 cv2.namedWindow("test")
-cv2.namedWindow("new")
+#cv2.namedWindow("new")
 success,frame=cap.read()
 bkg=frame
 fnt=frame
@@ -31,22 +31,23 @@ while success:
 		cv2.circle(grayframe,maxloc,rad,(255,0,0),2)
 
 		vec[veccnt]=maxloc[0]
+		#print(vec[veccnt])
 		veccnt+=1
 		moved=1
 		if(veccnt==10):
 			veccnt=0
 			for i in range(1,10):
 				speed=vec[i]-vec[i-1]
-				if(abs(speed)<10):
+				if(abs(speed)<6):
 					moved=0
-		if(moved==1):
-			if(vec[9]>vec[0]):
-				print("right")
-			else:
-				print("left")
+			if(moved==1):
+				if(vec[9]>vec[0]):
+					print("right")
+				else:
+					print("left")
 
 	cv2.imshow("test",frame)
-	cv2.imshow("new",grayframe)
+	#cv2.imshow("new",grayframe)
 	#print(maxloc,maxloc[0])
 
 	key=cv2.waitKey(1)
